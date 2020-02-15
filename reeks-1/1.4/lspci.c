@@ -8,7 +8,8 @@ uint PCI_BUSSES = 256;
 uint NUM_DEVS = 32;
 uint NUM_FUNCS = 8;
 uint REG_NR = 0;
-unsigned short int IO_DATA_PORT = 0xcf8;
+unsigned short int IO_REQ_PORT = 0xcf8;
+unsigned short int IO_RES_PORT =  0xcfc;
 unsigned short int DELAY_PORT = 0x80;
 
 uint build_io_req(uint busnr, uint devnr, uint fnr, uint regnr) {
@@ -18,12 +19,17 @@ uint build_io_req(uint busnr, uint devnr, uint fnr, uint regnr) {
 int main () {
 	uint i, j, n, req;
 
-	if (ioperm(IO_DATA_PORT, 5, 1) == -1) {
+	if (ioperm(IO_REQ_PORT, 5, 1) == -1) {
 		perror("ioperm");
 		exit(1);
 	};
 
 	if (ioperm(DELAY_PORT, 1, 1) == -1) {
+		perror("ioperm");
+		exit(1);
+	};
+
+	if (ioperm(IO_RES_PORT, 5, 1) == -1) {
 		perror("ioperm");
 		exit(1);
 	};
@@ -35,9 +41,9 @@ int main () {
 			for (n = 0; n < NUM_FUNCS; n++) {
 				req = build_io_req(i, j, n, 0);
 
-				outl_p(req, IO_DATA_PORT);
+				outl_p(req, IO_REQ_PORT);
 
-				res = inl(IO_DATA_PORT);
+				res = inl(IO_RES_PORT);
 
 				// dev aanwezig
 				if (res != 0xffffffff) {
