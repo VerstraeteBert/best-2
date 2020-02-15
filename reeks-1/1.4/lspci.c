@@ -16,9 +16,8 @@ uint build_io_req(uint busnr, uint devnr, uint fnr, uint regnr) {
 }
 
 int main () {
-	uint i, j, n;
-	
-	uint req;
+	uint i, j, n, req;
+
 	if (ioperm(IO_DATA_PORT, 5, 1) == -1) {
 		perror("ioperm");
 		exit(1);
@@ -42,7 +41,7 @@ int main () {
 
 				// dev aanwezig
 				if (res != 0xffffffff) {
-					printf("%d\t%d\t%d\n", res, res >> 16, res & ((1 << 16) - 1));
+					printf("%d\t%d\n", res >> 16, res & ((1 << 16) - 1));
 				}
 			}
 		}
