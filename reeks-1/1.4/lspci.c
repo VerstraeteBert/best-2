@@ -10,7 +10,7 @@ uint NUM_FUNCS = 8;
 uint OFFSETA = 0;
 uint OFFSETB = 8;
 unsigned short int IO_REQ_PORT = 0xcf8;
-unsigned short int IO_RES_PORT =  0xcfc;
+unsigned short int IO_RES_PORT = 0xcfc;
 
 uint build_io_req(uint busnr, uint devnr, uint fnr, uint offset) {
 	return 0x80000000 | busnr << 16 | devnr << 11 | fnr << 8 | offset;
