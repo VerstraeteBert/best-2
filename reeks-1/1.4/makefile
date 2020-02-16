@@ -1,6 +1,6 @@
 compile :
-	gcc -o2 -o lspci.o lspci.c
+	@gcc -o2 -o lspci.o lspci.c
 run : compile
-	./lspci.o
+	@./lspci.o
 clean :
-	rm -f *.o
+	@rm -f *.o
