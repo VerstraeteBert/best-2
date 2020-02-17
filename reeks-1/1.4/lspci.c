@@ -58,7 +58,7 @@ int main () {
 						fnr,
 						resOffsetB >> 16,
 						resOffsetA & ((1 << 16) - 1),
-						resOffsetB >> 16
+						resOffsetA >> 16
 					);
 
 					if (resOffsetB & ((1 << 8) - 1)) {
