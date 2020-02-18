@@ -35,7 +35,7 @@ int is_regular_file(const char *path) {
 void read_stdi_to_stdout() {
 	char buffer [BUFF_SIZE]; 
 	int n;
-	while ( (n = read(fd, buffer, BUFF_SIZE)) > 0) {
+	while ( (n = read(STDIN_FILENO, buffer, BUFF_SIZE)) > 0) {
 		write(STDOUT_FILENO, buffer, n);
 	}
 }

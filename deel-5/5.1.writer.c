@@ -12,7 +12,7 @@
 #include <stdio.h>
 
 const char * FILE_NAME = "test_file";
-size_t BUFF_SIZE = 16;
+size_t BUFF_SIZE = 4096;
 
 char get_ran_char() {
 	return 'a' + rand() % 26;
@@ -33,7 +33,7 @@ int main (int argc, char ** argv) {
 		// argv[0] -> naam v/ programma
 		// perror schrijf wat tussen haakjes staat op scherm 
 		// gevolgd door inhoud errno (die automisch geset wordt)
-		perror("test1");
+		perror(argv[0]);
 		exit(1);
 	}
 	int i, j;
