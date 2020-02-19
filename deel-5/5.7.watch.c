@@ -36,17 +36,24 @@ int main (int argc, char ** argv) {
 	
     char buf[BUFF_SIZE];
     int len;
+    struct inotify_event * e_ptr; 
 
     while ( len = read(fd_notif, buf, BUFF_SIZE) ) {
     	if (len == -1) {
-    		close(fd_file_watch);
+    		// file watch automatisch geclosed na closing van notif fd
     		close(fd_notif);
     	}
+
     	if (len != 0) {
-    		printf("%s", "File modified\n");
+    		int i;
+    		for (i = 0; i < len; i++) {
+    			e_ptr = (struct inotify_event *) &(buf[i]);
+    			if (e_ptr->mask & IN_MODIFY) {
+    				printf("%s\n", "File modified");	
+    			}
+    		}
     	}
     }
-
 }
 
 int is_reg_file(const char * path) {
