@@ -41,10 +41,12 @@ int main (int argc, char ** argv) {
     while ( len = read(fd_notif, buf, BUFF_SIZE) ) {
     	if (len == -1) {
     		// file watch automatisch geclosed na closing van notif fd
+    		perror(program_name);
     		close(fd_notif);
+    		exit(1);
     	}
 
-    	if (len != 0) {
+    	if (len > 0) {
     		int i;
     		for (i = 0; i < len; i++) {
     			e_ptr = (struct inotify_event *) &(buf[i]);
