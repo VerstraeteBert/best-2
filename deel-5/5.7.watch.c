@@ -34,7 +34,7 @@ int main (int argc, char ** argv) {
 	}
 
 	
-    char buf[BUFF_SIZE];
+    unsigned char buf[BUFF_SIZE];
     int len;
     struct inotify_event * e_ptr; 
 

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 char const * program_name;
-size_t BUFF_SIZE = 4096;
+size_t BUFF_SIZE = 8192;
 
 void read_file_to_stdout(const char *);
 void read_stdi_to_stdout();
@@ -26,14 +26,14 @@ int main(int argc, const char ** argv) {
 	exit(0);
 }
 
-int is_regular_file(const char *path) {
+int is_regular_file(int fd) {
 	struct stat path_stat;
-	stat(path, &path_stat);
+	fstat(fd, &path_stat);
 	return S_ISREG(path_stat.st_mode);
 }
 
 void read_stdi_to_stdout() {
-	char buffer [BUFF_SIZE]; 
+	unsigned char buffer [BUFF_SIZE]; 
 	int n;
 	while ( (n = read(STDIN_FILENO, buffer, BUFF_SIZE)) > 0) {
 		write(STDOUT_FILENO, buffer, n);
@@ -41,18 +41,19 @@ void read_stdi_to_stdout() {
 }
 
 void read_file_to_stdout(const char * path) {
-	if (!is_regular_file(path)) {
-		fprintf(stderr, "%s: %s: Is a directory\n", program_name, path);
-		return;
-	}
-
 	int fd;
 	if ( (fd = open(path, O_RDONLY)) < 0) {
 		perror(program_name);
 		return;
 	}
 
-	char buffer [BUFF_SIZE];
+	if (!is_regular_file(fd)) {
+		fprintf(stderr, "%s: %s: Is a directory\n", program_name, path);
+		close(fd);
+		return;
+	}
+
+	unsigned char buffer [BUFF_SIZE];
 	int n;
 
 	while ( (n = read(fd, buffer, BUFF_SIZE)) ) {

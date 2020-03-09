@@ -53,7 +53,7 @@ void copy(const char * src, const char * dest) {
 		exit(1);
 	}
 
-	char buffer [BUFF_SIZE]; 
+	unsigned char buffer [BUFF_SIZE]; 
 	size_t n;
 
 	while ( (n = read(fd_in, buffer, BUFF_SIZE)) ) {
