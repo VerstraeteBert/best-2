@@ -28,6 +28,9 @@ int main(void) {
     };
     pthread_create(&pthread_1, NULL, merge_sort_threaded, (void*) &data_1);
 
+    // p_thread 2 is eingelijk redundant;
+    // de main thread kan dit evengoed uitvoeren, wat zelfs potentieel sneller zou zijn
+    // andeers moet de main thread toch maar busy waiten op de tweede thread
     pthread_t pthread_2;
     struct data data_2 = {
             .n = SIZE,
