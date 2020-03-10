@@ -19,7 +19,7 @@ int main(void) {
     int* arr = malloc(SIZE * sizeof(int));
     int* arr2 = malloc(SIZE * sizeof(int));
     fill_backwards(arr, SIZE);
-    memcpy(arr2, arr, SIZE * sizeof(int));
+    fill_backwards(arr2, SIZE);
 
     pthread_t pthread_1;
     struct data data_1 = {
