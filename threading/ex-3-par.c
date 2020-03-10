@@ -37,7 +37,9 @@ int main(void) {
         *offset = i;
         pthread_create(&threads[i], NULL, mult_matrix, (void*) offset);
     }
-
+    // opnieuw optimilisatie mogelijk door één de berekeningen niet te laten uitvoeren door een extra gespawnde thread
+    // de main thread is opnieuw maar aan het busy waiten
+    // exercise for the reader enzo
     for (i = 0; i < THREAD_POOL; i++) {
         pthread_join(threads[i], NULL);
     }
