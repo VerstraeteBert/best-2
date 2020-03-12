@@ -4,5 +4,5 @@ project(besturings2 C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(
-        threading_1 threading/ex-3-par.c
+        threading_extra threading/parallel-merge.c
 )
