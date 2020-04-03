@@ -5,6 +5,11 @@
 const int DIM = 1000;
 const int THREAD_POOL = 4; // aantal hardware threads (cores)
 
+/**
+ * opnieuw maken
+ *  -> argumenten matrix_a, matrix_b , matrix_res en offset meegeven in struct ip global
+ */
+
 int matrix_src [DIM][DIM];
 int matrix_res [DIM][DIM];
 

@@ -3,8 +3,8 @@
 #include <pthread.h>
 #include <time.h>
 
-const int SIZE = 10000000;
-const int THREAD_POOL = 4;
+const int SIZE = 100000000;
+const int THREAD_POOL = 2;
 
 void fill_backwards(int [], size_t);
 void* merge_sort_new_thread(void* v_m_data);
@@ -15,7 +15,7 @@ void merge_sort_seq(int[], int n);
 void merge_sort_seq_helper(int [], int start, int end);
 
 struct merge_data {
-    int * arr;
+    int* arr;
     int start;
     int end;
     int* thread_pool;
@@ -57,7 +57,7 @@ void merge_sort_parallel_helper(int arr[], int start, int end, int* thread_pool)
     if (start < end) {
         int mid = (start + end) / 2;
         if (*thread_pool >= 1) {
-            (*thread_pool) -= 1;
+            *thread_pool -= 1;
 //          spawned thread will handle first half, current thread will handle second half
             struct merge_data m_data = {
                     .arr = arr,
@@ -65,8 +65,8 @@ void merge_sort_parallel_helper(int arr[], int start, int end, int* thread_pool)
                     .end = mid,
                     .thread_pool = thread_pool
             };
-            printf("Spawning new thread for: %d -> %d\n", start, mid);
-            printf("Current thread handling: %d -> %d\n", mid + 1, end);
+//            printf("Spawning new thread for: %d -> %d\n", start, mid);
+//            printf("Current thread handling: %d -> %d\n", mid + 1, end);
             pthread_t merge_thr;
             pthread_create(&merge_thr, NULL, merge_sort_new_thread, (void*) &m_data);
 
