@@ -7,7 +7,8 @@ const int THREAD_POOL = 4; // aantal hardware threads (cores)
 
 /**
  * opnieuw maken
- *  -> argumenten matrix_a, matrix_b , matrix_res en offset meegeven in struct ip global
+ *  -> argumenten matrix_a, matrix_b , matrix_res en offset meegeven in struct ipv global
+ *  -> worker functie meer generiek houden
  */
 
 int matrix_src [DIM][DIM];
