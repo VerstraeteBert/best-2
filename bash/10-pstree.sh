@@ -1,19 +1,19 @@
 #!/usr/local/bin/bash -
 
-declare -A ppid_idx_map
+declare -A parent_children_map
 declare -A pid_name_map
 
 function print_tree_level() {
     local ppid=$1
     local level=$2
 
-    if [[ ! -v "ppid_idx_map['$ppid']" ]]
+    if [[ ! -v "parent_children_map['$ppid']" ]]
     then
         return 0
     fi
 
     IFS=','
-    for pid in ${ppid_idx_map["$ppid"]}
+    for pid in ${parent_children_map["$ppid"]}
     do
         for (( i = 0; i < level ; i++ ))
         do
@@ -34,11 +34,11 @@ read <& 3
 while read uid pid ppid c stime tty ctime name <& 3
 do
     pid_name_map["$pid"]=$name
-    if [[ ! -v "ppid_idx_map['$ppid']" ]]
+    if [[ ! -v "parent_children_map['$ppid']" ]]
     then
-        ppid_idx_map["$ppid"]="$pid"
+        parent_children_map["$ppid"]="$pid"
     else
-        ppid_idx_map["$ppid"]="${ppid_idx_map["$ppid"]},$pid"
+        parent_children_map["$ppid"]="${parent_children_map["$ppid"]},$pid"
     fi
 done
 
