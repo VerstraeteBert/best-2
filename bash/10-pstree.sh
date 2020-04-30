@@ -1,7 +1,6 @@
 #!/usr/local/bin/bash -
 
 declare -A ppid_idx_map
-declare -a children_arr
 declare -A pid_name_map
 
 function print_tree_level() {
@@ -13,16 +12,15 @@ function print_tree_level() {
         return 0
     fi
 
-    idx=${ppid_idx_map["$ppid"]}
     IFS=','
-    for pid in ${children_arr["$idx"]}
+    for pid in ${ppid_idx_map["$ppid"]}
     do
         for (( i = 0; i < level ; i++ ))
         do
             printf '\t'
         done
 
-        printf '%s\n' "${pid_name_map[$pid]}"
+        printf 'PPID:%s PID:%s Name:%s\n' "$ppid" "$pid" "${pid_name_map[$pid]}"
 
         print_tree_level "$pid" "$((level + 1))"
     done
@@ -38,14 +36,12 @@ do
     pid_name_map["$pid"]=$name
     if [[ ! -v "ppid_idx_map['$ppid']" ]]
     then
-        ppid_idx_map["$ppid"]=${#children_arr[@]}
-        children_arr[${ppid_idx_map["$ppid"]}]="$pid"
+        ppid_idx_map["$ppid"]="$pid"
     else
-        idx=${ppid_idx_map["$ppid"]}
-        children_arr[$idx]="${children_arr[$idx]},$pid"
+        ppid_idx_map["$ppid"]="${ppid_idx_map["$ppid"]},$pid"
     fi
 done
 
-print_tree_level "0" "0"
-
 exec 3<&-
+
+print_tree_level "0" "0"
