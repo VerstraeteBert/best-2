@@ -3,7 +3,7 @@
 declare -A parent_children_map
 declare -A pid_name_map
 
-function print_tree_level() {
+function print_children() {
     local ppid=$1
     local level=$2
 
@@ -22,7 +22,7 @@ function print_tree_level() {
 
         printf 'PPID:%s PID:%s Name:%s\n' "$ppid" "$pid" "${pid_name_map[$pid]}"
 
-        print_tree_level "$pid" "$((level + 1))"
+        print_children "$pid" "$((level + 1))"
     done
 }
 
@@ -44,4 +44,4 @@ done
 
 exec 3<&-
 
-print_tree_level "0" "0"
+print_children "0" "0"
