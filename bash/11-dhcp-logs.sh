@@ -52,11 +52,10 @@ exec 3< "$filename"
 
 # skip until header line
 IFS=","
-while read id date timestamp descr ip hostn mac rest && [[ "$id" != "ID" ]]
+while read id rest && [[ "$id" != "ID" ]]
 do
     : # do nothing
 done <& 3
-
 #skip header line
 read <& 3
 
@@ -90,7 +89,7 @@ function print_success_lease() {
 #id 10 -> lease granted
 #id 15 -> lease rejected
 #id 11 -> lease renewed
-(( s_set == 1 )) && echo "---- Succesful leases per date ---"
+(( s_set == 1 )) && echo "---- Successful leases per date ---"
 
 while IFS="," read id date timestamp descr ip hostn mac rest
 do
@@ -106,7 +105,6 @@ if (( r_set == 1 ))
 then
     echo "--- Number of distinct hosts lease rejection ---"
     echo ${#mac_denied[@]}
-    echo ""
 fi
 
 if (( n_set == 1 ))
@@ -115,7 +113,5 @@ then
     for host in ${!hosts_night[@]}
     do
         echo "$host"
-
     done
-    echo ""
 fi

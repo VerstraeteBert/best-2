@@ -1,4 +1,4 @@
-#!/bin/bash -
+#!/usr/local/bin/bash -
 
 declare -A uri_get_map
 
@@ -35,16 +35,19 @@ function cleanup_and_print_res() {
         echo "$key ${uri_get_map[$key]}"
     done | sort -k 2rn | head -n 10
 
-    pct=$(bc -l <<< "$count_processed / $total_count * 100")
 
-    printf "\nPercent processed: %.1f%%\n" "$pct"
+    printf "Total=%d Processed=%d%\n" "$total_count" "$count_processed"
+    processed_mult=$(( count_processed * 100 ))
+    pct_dec=$(( processed_mult / total_count ))
+    pct_frac=$(( (processed_mult % total_count) / 10 ))
+    printf "\nPercent processed: %d.%d%\n" "$pct_dec" "$pct_frac"
 
     exit 0;
 }
 
 temp_dir=$(mktemp -d "/tmp/logs.XXXXXX")
 
-cp 'iis-logs.zip' "$temp_dir/iis-logs.zip"
+cp 'fixtures/iis-logs.zip' "$temp_dir/iis-logs.zip"
 
 cd "$temp_dir"
 
